@@ -3,5 +3,15 @@
     "files",
     "deploy",
     "auth"
-  ]
+  ],
+  "editor.rulers": [  
+    
+  ],
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  // "editor.defaultFormatter": "vscode.typescript-language-features"
+  "eslint.run": "onSave",
 }
