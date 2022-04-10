@@ -4,6 +4,7 @@ import {
   UseGuards,
   HttpStatus,
   HttpCode,
+  Req,
 } from '@nestjs/common';
 import { Roles } from 'src/roles/roles.decorator';
 import { RoleEnum } from 'src/roles/roles.enum';
@@ -11,7 +12,16 @@ import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/roles/roles.guard';
 import { RecipesServices } from './recipes.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
+interface User extends Request {
+  user: {
+    id: number;
+    role: string[];
+    iat: number;
+    exp: number;
+  };
+}
 @ApiBearerAuth()
 @Roles(RoleEnum.admin)
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -25,7 +35,7 @@ export class RecipesController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  find() {
-    return this.recipesServices.find();
+  find(@Req() request: User) {
+    return this.recipesServices.find(request.user.id);
   }
 }
